@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Menus/SettingsMenu.gd" type="Script" id=1]
+
+[node name="SettingsMenu" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -246.5
+margin_top = -104.0
+margin_right = 246.5
+margin_bottom = 104.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FullScreenLabel" type="Label" parent="Panel"]
+margin_left = 21.4892
+margin_top = 64.2784
+margin_right = 117.489
+margin_bottom = 88.2784
+text = "Full Screen"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FullScreenButton" type="CheckButton" parent="Panel"]
+margin_left = 410.489
+margin_top = 56.2784
+margin_right = 486.489
+margin_bottom = 96.2784
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MusicLabel" type="Label" parent="Panel"]
+margin_left = 21.4892
+margin_top = 12.1428
+margin_right = 117.489
+margin_bottom = 36.1428
+text = "Music"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MusicButton" type="CheckButton" parent="Panel"]
+margin_left = 410.489
+margin_top = 4.14282
+margin_right = 486.489
+margin_bottom = 44.1428
+pressed = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="Button" parent="Panel"]
+margin_left = 15.3301
+margin_top = 126.769
+margin_right = 476.33
+margin_bottom = 190.769
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="toggled" from="Panel/FullScreenButton" to="." method="_on_FullScreenButton_toggled"]
+[connection signal="toggled" from="Panel/MusicButton" to="." method="_on_MusicButton_toggled"]
+[connection signal="button_up" from="Panel/Back" to="." method="_on_Back_button_up"]

@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/point.png" type="Texture" id=1]
+[ext_resource path="res://Effects/Head.gd" type="Script" id=2]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.00671141, 0.751678, 1 )
+colors = PoolColorArray( 0, 1, 0.967773, 0.686275, 0, 0.772549, 0.729412, 0.588235, 1, 1, 1, 0.0666667 )
+
+[node name="Head" type="CPUParticles2D"]
+modulate = Color( 1, 1, 1, 0.780392 )
+self_modulate = Color( 1, 1, 1, 0.780392 )
+material = SubResource( 1 )
+emitting = false
+amount = 1
+lifetime = 0.3
+one_shot = true
+local_coords = false
+texture = ExtResource( 1 )
+direction = Vector2( -1, 0 )
+gravity = Vector2( 200, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.24
+angular_velocity = 50.0
+radial_accel = 40.0
+radial_accel_random = 0.34
+angle = 100.0
+angle_random = 1.0
+color_ramp = SubResource( 2 )
+hue_variation = 0.1
+hue_variation_random = 0.15
+script = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+process_mode = 0
+wait_time = 0.7
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

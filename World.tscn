@@ -1,0 +1,135 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Partner.tscn" type="PackedScene" id=2]
+[ext_resource path="res://World.gd" type="Script" id=3]
+[ext_resource path="res://WarpDrive.mp3" type="AudioStream" id=4]
+[ext_resource path="res://Shaders/nebula.shader" type="Shader" id=5]
+[ext_resource path="res://Effects/ScreenShake.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Sprites/point.png" type="Texture" id=7]
+[ext_resource path="res://Menus/PauseSingle.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Menus/GameOver.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Sounds/explosion.wav" type="AudioStream" id=10]
+
+[sub_resource type="OpenSimplexNoise" id=1]
+
+[sub_resource type="NoiseTexture" id=2]
+seamless = true
+noise = SubResource( 1 )
+
+[sub_resource type="OpenSimplexNoise" id=3]
+seed = 1
+
+[sub_resource type="NoiseTexture" id=4]
+seamless = true
+noise = SubResource( 3 )
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 5 )
+shader_param/scroll1 = Vector2( 0.2, -0.01 )
+shader_param/scroll2 = Vector2( 0.02, 0.02 )
+shader_param/noise1 = SubResource( 2 )
+shader_param/noise2 = SubResource( 4 )
+
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0, 0.342282, 0.644295, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.337255, 0.345098, 1, 1, 0.337255, 0.345098, 1, 1, 1, 0.702209, 0.0703125, 1 )
+
+[sub_resource type="SegmentShape2D" id=7]
+b = Vector2( 0, 0 )
+
+[sub_resource type="CanvasItemMaterial" id=8]
+blend_mode = 1
+
+[sub_resource type="Gradient" id=9]
+offsets = PoolRealArray( 0, 0.973154 )
+colors = PoolColorArray( 2, 2, 1.4, 1, 0.976471, 1, 0.701961, 0 )
+
+[node name="World" type="Node"]
+process_priority = 100
+script = ExtResource( 3 )
+
+[node name="PauseSingle" parent="." instance=ExtResource( 8 )]
+
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+zoom = Vector2( 0.2, 0.2 )
+smoothing_enabled = true
+
+[node name="ScreenShake" parent="Camera" instance=ExtResource( 6 )]
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource( 5 )
+anchor_top = 0.000330336
+anchor_right = 1.0
+anchor_bottom = 1.00033
+margin_left = -17.0
+margin_top = -17.2973
+margin_right = -1242.0
+margin_bottom = -682.297
+color = Color( 0.183957, 0, 0.632813, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Link" type="Line2D" parent="."]
+points = PoolVector2Array( 0, 0, 0, 0 )
+width = 1.0
+default_color = Color( 1, 1, 1, 1 )
+gradient = SubResource( 6 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="LinkArea" type="Area2D" parent="Link"]
+
+[node name="Shape" type="CollisionShape2D" parent="Link/LinkArea"]
+shape = SubResource( 7 )
+
+[node name="RayGlow" type="CPUParticles2D" parent="Link"]
+material = SubResource( 8 )
+scale = Vector2( 0.2, 0.2 )
+amount = 20
+lifetime = 0.3
+texture = ExtResource( 7 )
+emission_shape = 2
+emission_rect_extents = Vector2( 1, 1 )
+flag_align_y = true
+direction = Vector2( -1, -1 )
+spread = 90.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 1.0
+angular_velocity_random = 1.0
+orbit_velocity_random = 1.0
+linear_accel = 8.6
+linear_accel_random = 1.0
+radial_accel_random = 1.0
+angle = 1.0
+angle_random = 1.0
+color_ramp = SubResource( 9 )
+hue_variation = 0.15
+hue_variation_random = 0.5
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 15.9966, 8.22157 )
+
+[node name="Partner" parent="." instance=ExtResource( 2 )]
+position = Vector2( 17.7837, 51.5406 )
+
+[node name="BGM" type="AudioStreamPlayer2D" parent="."]
+pause_mode = 1
+stream = ExtResource( 4 )
+autoplay = true
+bus = "Music"
+
+[node name="Explosion" type="AudioStreamPlayer" parent="."]
+pause_mode = 1
+stream = ExtResource( 10 )
+bus = "Sounds"
+
+[node name="GameOver" parent="." instance=ExtResource( 9 )]
+
+[connection signal="body_entered" from="Link/LinkArea" to="." method="_on_LinkArea_body_entered"]

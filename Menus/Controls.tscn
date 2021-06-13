@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Menus/Controls.gd" type="Script" id=1]
+[ext_resource path="res://Fonts/Itim-Regular.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 25
+font_data = ExtResource( 2 )
+
+[node name="Controls" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -300.5
+margin_top = -249.5
+margin_right = 300.5
+margin_bottom = 249.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="Button" parent="Panel"]
+margin_left = 67.4808
+margin_top = 370.031
+margin_right = 528.481
+margin_bottom = 434.031
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="Label" parent="Panel"]
+margin_left = 25.4983
+margin_top = 24.0
+margin_right = 572.498
+margin_bottom = 406.0
+custom_fonts/font = SubResource( 1 )
+text = "Destroy the asteroids by hitting them with the laser.
+
+WASD to move the white node, SHIFT to dash;
+Left Mouse Click to move the orange node.
+
+Press ESC to pause the game.
+
+The game ends when 10 asteroids pass through 
+without being destroyed."
+
+[connection signal="button_up" from="Panel/Back" to="." method="_on_Back_button_up"]
